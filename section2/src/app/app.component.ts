@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'section2';
+  username: string = '';
+  showSecret = false;
+  log =[];
+
+  onToogleDisplay(){
+    this.showSecret = !this.showSecret;
+    this.log.push(new Date())
+  }
 }
