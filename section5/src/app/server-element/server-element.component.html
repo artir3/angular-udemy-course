@@ -2,8 +2,8 @@
     <div class="panel-heading">{{ element.name }}</div>
     <div class="panel-body">
         <p>
-            <strong *ngIf="element.type === 'server'" style="color: red">{{ element.content }}</strong>
-            <em *ngIf="element.type === 'blueprint'">{{ element.content }}</em>
+            <strong *ngIf="element.type === 'server'" style="color: red">Server: {{ element.content }}</strong>
+            <em *ngIf="element.type === 'blueprint'">Server blueprint: {{ element.content }}</em>
         </p>
     </div>
 </div>
