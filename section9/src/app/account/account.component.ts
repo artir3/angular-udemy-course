@@ -4,7 +4,8 @@ import { LoggingService } from '../logging/logging.service';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'],
+  providers: [LoggingService]
 })
 export class AccountComponent {
   @Input() account: {name: string, status: string};
@@ -12,7 +13,7 @@ export class AccountComponent {
   @Output() statusChanged = new EventEmitter<{id: number, newStatus: string}>();
 
   constructor(private logger: LoggingService) {}
-  
+
   onSetTo(status: string) {
     this.statusChanged.emit({id: this.id, newStatus: status});
     this.logger.logStatusChange(status);
