@@ -9,12 +9,13 @@ import { LoggingService } from '../logging/logging.service';
 export class NewAccountComponent {
   @Output() accountAdded = new EventEmitter<{name: string, status: string}>();
 
+  constructor(private logger: LoggingService) {}
+  
   onCreateAccount(accountName: string, accountStatus: string) {
     this.accountAdded.emit({
       name: accountName,
       status: accountStatus
     });
-    const service = new LoggingService();
-    service.logStatusChange(accountStatus);
+    this.logger.logStatusChange(accountStatus);
   }
 }
