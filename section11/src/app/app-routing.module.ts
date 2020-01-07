@@ -8,6 +8,7 @@ import { EditServerComponent } from "./servers/edit-server/edit-server.component
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { NgModule } from "@angular/core";
 import { AuthGuard } from "./auth-guard/auth-guard.service";
+import { AuthService } from "./auth-guard/auth.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -17,7 +18,11 @@ const appRoutes: Routes = [
         ]
     },
     {
-        path: 'servers', canActivate: [AuthGuard], component: ServersComponent, children: [ //nested routing
+        path: 'servers', 
+            // canActivate: [AuthGuard], 
+            canActivateChild: [AuthGuard],
+            component: ServersComponent, 
+            children: [ //nested routing
             { path: ':id', component: ServerComponent },
             { path: ':id/edit', component: EditServerComponent } //query parameters
         ]
