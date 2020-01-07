@@ -17,6 +17,7 @@ const appRoutes: Routes = [
   { path: 'users/:id/:name', component: UserComponent }, //node parameters
   { path: 'users', component: UsersComponent },
   { path: 'servers', component: ServersComponent },
+  { path: 'server/:id', component: ServerComponent },
   { path: 'servers/:id/edit', component: EditServerComponent } //query parameters
 ]
 
