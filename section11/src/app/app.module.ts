@@ -14,11 +14,17 @@ import { ServersService } from './servers/servers.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'users/:id/:name', component: UserComponent }, //node parameters
-  { path: 'users', component: UsersComponent },
-  { path: 'servers', component: ServersComponent },
-  { path: 'server/:id', component: ServerComponent },
-  { path: 'servers/:id/edit', component: EditServerComponent } //query parameters
+  {
+    path: 'users', component: UsersComponent, children: [
+      { path: ':id/:name', component: UserComponent }, //node parameters
+    ]
+  },
+  {
+    path: 'servers', component: ServersComponent, children: [ //nested routing
+      { path: ':id', component: ServerComponent },
+      { path: ':id/edit', component: EditServerComponent } //query parameters
+    ]
+  },
 ]
 
 @NgModule({
