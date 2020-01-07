@@ -14,7 +14,7 @@ import { ServersService } from './servers/servers.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
-  { path: '*', component: HomeComponent },
+  { path: '', component: HomeComponent },
   {
     path: 'users', component: UsersComponent, children: [
       { path: ':id/:name', component: UserComponent }, //node parameters
