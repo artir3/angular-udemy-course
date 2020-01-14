@@ -10,7 +10,8 @@ export class AppComponent {
   username = "";
   email = "";
   secret;
-  @ViewChild('f' , { static: true } ) signupForm: NgForm;
+  @ViewChild('f' , { static: true } ) signupForm: NgForm; 
+  defaultQuestion = 'pet';
 
   suggestUserName() {
     const suggestedName = 'Superuser';
@@ -21,6 +22,10 @@ export class AppComponent {
   // }
 
   onSubmit() {
-    console.log(this.signupForm)
+    if (this.signupForm.valid){
+      console.log(this.signupForm)
+    } else {
+      console.log('Form is not valid!!!')
+    }
   }
 }
