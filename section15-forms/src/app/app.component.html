@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form (ngSubmit)="onSubmit()" #f="ngForm">
+      <form #f="ngForm" (ngSubmit)="onSubmit()">
         <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
           <div class="form-group">
             <label for="username">Username</label>
@@ -49,13 +49,12 @@
             name="questionAnswer"
             row="3"
             class="form-control" 
-
             [(ngModel)]="answer">
           </textarea>
         <p>Your replay {{ answer }}</p>
         </div>
         <div 
-          class='rario' 
+          class='radio' 
           *ngFor="let gender of genders"
           required
           >
@@ -65,6 +64,17 @@
         </div>
         <button [disabled]="!f.valid" class="btn btn-primary" type="submit">Submit</button>
       </form>
+      <hr>
+      <div class="row" *ngIf="submitted">
+        <div class="col-xs-12">
+        <h3>Your Data</h3>
+        <p>Username: {{ user.name }}</p>
+        <p>Mail: {{ user.email }}</p>
+        <p>Secret Question: {{ user.questionAnswer }}</p>
+        <p>Answer: {{ user.answer }}</p>
+        <p>Gender: {{ user.gender }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
