@@ -31,11 +31,11 @@ export class AppComponent {
     //   questionAnswer: 'dasd',
     //   gender: 'male'
     // })
-    // this.signupForm.form.patchValue({
-    //   userData: {
-    //     username: suggestedName
-    //   }
-    // })
+    this.signupForm.form.patchValue({
+      userData: {
+        username: suggestedName
+      }
+    })
   }
 
   // onSubmit(form: NgForm) {
@@ -50,5 +50,6 @@ export class AppComponent {
     this.user.questionAnswer = this.signupForm.value.secret;
     this.user.gender = this.signupForm.value.gender;
     console.log(this.user)
+    this.signupForm.reset();
   }
 }
