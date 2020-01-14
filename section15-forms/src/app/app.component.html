@@ -50,6 +50,15 @@
           </textarea>
         <p>Your replay {{ answer }}</p>
         </div>
+        <div 
+          class='rario' 
+          *ngFor="let gender of genders"
+          required
+          >
+          <label>
+            <input type="radio" name="gender" ngModel [value]="gender" > {{ gender }}
+          </label>
+        </div>
         <button [disabled]="!f.valid" class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
