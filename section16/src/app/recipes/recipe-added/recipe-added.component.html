@@ -12,19 +12,19 @@
                     <label for="name">Name</label>
                     <input type="text" name="name" id="name" 
                     formControlName="name"
-                    class="form-control">
+                    class="form-control" #name>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12">
                     <label for="imagePath">Image url</label>
                     <input type="text" name="imagePath" id="imagePath" 
-                    formControlName="imagePath" class="form-control">
+                    formControlName="imagePath" class="form-control" #imagePath>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="imagePath.value">
                 <div class="col-xs-12">
-                    <img src="" alt="" class="img-responsive">
+                    <img [src]="imagePath.value" [alt]="'Image of ' + name" class="img-responsive">
                 </div>
             </div>
             <div class="row">
@@ -46,7 +46,7 @@
                             <input type="text" formControlName="amount" class="form-control">
                         </div>
                         <div class="col-xs-2">
-                            <button class="btn btn-danger">X</button>
+                            <button type="button" class="btn btn-danger">X</button>
                         </div>
                     </div>
                     <hr>
