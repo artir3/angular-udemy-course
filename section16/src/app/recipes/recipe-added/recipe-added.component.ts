@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
 import { Recipe } from '../recipe.model';
@@ -16,7 +16,8 @@ export class RecipeAddedComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private router: Router
   ) { }
 
   onSubmit() {
@@ -31,6 +32,7 @@ export class RecipeAddedComponent implements OnInit {
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
     }
+    this.onCancel();
   }
 
   ngOnInit() {
@@ -43,8 +45,11 @@ export class RecipeAddedComponent implements OnInit {
 
   onAddIngredient() {
     (<FormArray>this.recipeForm.get('ingredients'))
-      .push(this.newIngredientForm(null, null)
-    )
+     .push(this.newIngredientForm(null, null))
+  }
+
+  onCancel() {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   private initForm() {
@@ -60,7 +65,7 @@ export class RecipeAddedComponent implements OnInit {
       description = recipe.description;
       if (recipe['ingredients']) {
         recipe.ingredients.forEach(ing => {
-          ingredients.push(this.newIngredientForm(ing.name,ing.amount))
+          ingredients.push(this.newIngredientForm(ing.name, ing.amount))
         });
       }
     }
@@ -77,7 +82,7 @@ export class RecipeAddedComponent implements OnInit {
     return (<FormArray>this.recipeForm.get('ingredients')).controls;
   }
 
-  private newIngredientForm(name: string, amount: number):FormGroup {
+  private newIngredientForm(name: string, amount: number): FormGroup {
     return new FormGroup({
       'name': new FormControl(name, Validators.required),
       'amount': new FormControl(amount, [
