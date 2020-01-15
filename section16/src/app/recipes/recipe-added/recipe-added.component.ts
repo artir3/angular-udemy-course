@@ -51,6 +51,10 @@ export class RecipeAddedComponent implements OnInit {
     this.ingredients().push(this.newIngredientForm(null, null))
   }
 
+  onClearIngredients() {
+    this.ingredients().clear();
+  }
+
   onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
