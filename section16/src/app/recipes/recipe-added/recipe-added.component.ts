@@ -32,18 +32,28 @@ export class RecipeAddedComponent implements OnInit {
     let name = '';
     let imagePath = '';
     let description = '';
+    let ingredients = new FormArray([]);
 
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
       name = recipe.name;
       imagePath = recipe.imagePath;
       description = recipe.description;
+      if (recipe['ingredients']) {
+        recipe.ingredients.forEach(ing => {
+          ingredients.push(new FormGroup({
+            'name': new FormControl(ing.name),
+            'amount': new FormControl(ing.amount)
+          }))
+        });
+      }
     }
 
     this.recipeForm = new FormGroup({
       'name': new FormControl(name),
       'imagePath': new FormControl(imagePath),
-      'description': new FormControl(description)
+      'description': new FormControl(description),
+      'ingredients': ingredients
     })
   }
 
