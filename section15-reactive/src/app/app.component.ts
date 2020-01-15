@@ -26,7 +26,13 @@ export class AppComponent implements OnInit {
       }),
       'gender': new FormControl('male'),
       'hobbies': new FormArray([])
-    })
+    });
+    // this.signupForm.valueChanges.subscribe(val => {
+    //   console.log(val);
+    // })
+    // this.signupForm.statusChanges.subscribe(val => {
+    //   console.log(val);
+    // })
   }
 
   onSubmit() {
@@ -51,8 +57,8 @@ export class AppComponent implements OnInit {
   forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
       setTimeout(() => {
-        if (control.value === 'test@test.com') {
-          resolve({'emailIsForbidden': true});
+        resolve({'emailIsForbidden': true});
+          if (control.value === 'test@test.com') {
         } else resolve(null);
       },1500);
     })
