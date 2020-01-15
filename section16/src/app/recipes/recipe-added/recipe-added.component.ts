@@ -35,6 +35,10 @@ export class RecipeAddedComponent implements OnInit {
     this.onCancel();
   }
 
+  onDeleteIngredient(index: number) {
+    this.ingredients().removeAt(index);
+  }
+
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
@@ -44,8 +48,7 @@ export class RecipeAddedComponent implements OnInit {
   }
 
   onAddIngredient() {
-    (<FormArray>this.recipeForm.get('ingredients'))
-     .push(this.newIngredientForm(null, null))
+    this.ingredients().push(this.newIngredientForm(null, null))
   }
 
   onCancel() {
@@ -79,7 +82,11 @@ export class RecipeAddedComponent implements OnInit {
   }
 
   get controls() {
-    return (<FormArray>this.recipeForm.get('ingredients')).controls;
+    return this.ingredients().controls;
+  }
+
+  private ingredients(): FormArray {
+    return (<FormArray> this.recipeForm.get('ingredients'));
   }
 
   private newIngredientForm(name: string, amount: number): FormGroup {
