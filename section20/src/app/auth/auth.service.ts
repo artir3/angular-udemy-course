@@ -4,12 +4,13 @@ import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
-interface AuthResponseData {
-  idToken: string,
-  email: string,
-  refreshToken: string,
-  expiresIn: string,
-  localId: string
+class SignModel {
+  returnSecureToken: true
+  constructor(public email: string, public password: string) {}
+}
+
+const headers = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 }
 
 @Injectable({
@@ -19,13 +20,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   signUp(email: string, password: string) {
-    let newHeaders = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    }
+
     return this.http.post<AuthResponseData>(
       environment.signUpUrl,
-      { email: email, password: password, returnSecureToken: true },
-      newHeaders
+      new SignModel(email, password),
+      headers
     ).pipe(catchError(errorRes => {
       let errorMessage = 'An unknown error occured!'
       if (errorRes.error && errorRes.error.error) {
@@ -47,5 +46,13 @@ export class AuthService {
       return throwError(errorMessage);
     }));
 
+  }
+
+  login(email: string, password: string) {
+    return this.http.post<AuthResponseData>(
+      environment.signInUrl,
+      new SignModel(email, password),
+      headers
+      )
   }
 }
