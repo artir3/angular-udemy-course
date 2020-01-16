@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Post } from './post.model';
 import { PostsService } from './posts.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   loadedPosts: Post[] = [];
   isFeaching = false;
   error = null;
+  subscriptionHandler: Subscription;
 
   constructor(private service: PostsService) { }
 
   ngOnInit() {
+    this.subscriptionHandler = this.service.error.subscribe(error => error = error)
     this.onFetchPosts();
   }
 
@@ -40,5 +43,9 @@ export class AppComponent implements OnInit {
     this.service.clearPosts().subscribe(() => {
       this.loadedPosts = [];
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionHandler.unsubscribe();
   }
 }

@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators'
 import { Post } from './post.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostsService {
+  error = new Subject<string>();
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +18,7 @@ export class PostsService {
       .post<{ name: string }>(environment.apiUrl, new Post(title, content))
       .subscribe(response => {
         console.log(response);
-      })
+      }, error => this.error.next(error.message));
   }
 
   fetechPosts() {
