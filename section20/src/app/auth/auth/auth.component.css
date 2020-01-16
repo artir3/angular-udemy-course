@@ -6,3 +6,7 @@ button {
 input.ng-invalid.ng-touched {
     border: 1px solid red;
 }
+
+div.spinner {
+    text-align: center;
+}
