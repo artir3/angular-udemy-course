@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { map, catchError } from 'rxjs/operators'
 import { Post } from './post.model';
@@ -22,7 +22,12 @@ export class PostsService {
   }
 
   fetechPosts() {
-    return this.http.get<{ [key: string]: Post }>(environment.apiUrl)
+    let headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<{ [key: string]: Post }>(environment.apiUrl, headers)
       .pipe(map(responseData => {
         const posts: Post[] = [];
         for (let key in responseData) {
