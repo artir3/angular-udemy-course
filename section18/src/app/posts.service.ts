@@ -31,4 +31,8 @@ export class PostsService {
         return posts;
       }))
   }
+
+  clearPosts() {
+    return this.http.delete(environment.apiUrl);
+  }
 }
