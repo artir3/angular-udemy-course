@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { map, catchError } from 'rxjs/operators'
+import { map, catchError, tap } from 'rxjs/operators'
 import { Post } from './post.model';
 import { Subject, throwError } from 'rxjs';
 
@@ -56,6 +56,15 @@ export class PostsService {
   }
 
   clearPosts() {
-    return this.http.delete(environment.apiUrl);
+    return this.http.delete(environment.apiUrl, {
+      observe: 'events'
+    }).pipe(tap(event => {
+      console.log(event)
+      if (event.type === HttpEventType.Sent) {
+        // ...
+      } else if (event.type === HttpEventType.Response) {
+        console.log(event.body);
+      }
+    }));
   }
 }
