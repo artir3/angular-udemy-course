@@ -27,7 +27,7 @@ export class AuthComponent implements OnInit {
       const email = form.value.email;
       const password = form.value.password;
       
-      this.isLoginMode = true;
+      this.isLoading = true;
 
       if (this.isLoginMode) {
 
@@ -35,11 +35,10 @@ export class AuthComponent implements OnInit {
         this.authService.signUp(email, password)
           .subscribe(response => {
             console.log(response)
-            this.isLoginMode = false;
+            this.isLoading = false;
           }, errorMeessage => {
-            console.log(errorMeessage)
             this.error = errorMeessage;
-            this.isLoginMode = false;
+            this.isLoading = false;
           });
       }
       form.reset();

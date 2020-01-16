@@ -30,9 +30,18 @@ export class AuthService {
       let errorMessage = 'An unknown error occured!'
       if (errorRes.error && errorRes.error.error) {
         switch (errorRes.error.error.message) {
-          case 'EMAIL_EXISTS': errorMessage = 'The email address is already in use by another account';
-          case 'OPERATION_NOT_ALLOWED': errorMessage = 'Password sign-in is disabled for this project';
-          case 'TOO_MANY_ATTEMPTS_TRY_LATER': errorMessage = 'We have blocked all requests from this device due to unusual activity. Try again later.';
+          case 'EMAIL_EXISTS': { 
+            errorMessage = 'The email address is already in use by another account';
+            break;
+          }
+          case 'OPERATION_NOT_ALLOWED': {
+            errorMessage = 'Password sign-in is disabled for this project';
+            break;
+          }
+          case 'TOO_MANY_ATTEMPTS_TRY_LATER': {
+            errorMessage = 'We have blocked all requests from this device due to unusual activity. Try again later.';
+            break;
+          }
         }
       }
       return throwError(errorMessage);
