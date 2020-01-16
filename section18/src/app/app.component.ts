@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
-import { map } from 'rxjs/operators'
+
 import { Post } from './post.model';
+import { PostsService } from './posts.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +12,7 @@ export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFeaching = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private service: PostsService) { }
 
   ngOnInit() {
     this.onFetchPosts();
@@ -21,30 +20,16 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: Post) {
     // Send Http request
-    this.http
-      .post<{ name: string }>(environment.apiUrl, postData)
-      .subscribe(response => {
-        console.log(response);
-      });
+    this.service.createAndStorePost(postData.title, postData.content);
   }
 
   onFetchPosts() {
     // Send Http request
     this.isFeaching = true;
-    this.http.get<{ [key: string]: Post }>(environment.apiUrl)
-      .pipe(map(responseData => {
-        const posts: Post[] = [];
-        for (let key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            posts.push({ ...responseData[key], id: key });
-          }
-        };
-        return posts;
-      }))
-      .subscribe(post => {
-        this.loadedPosts = post;
-        this.isFeaching = false;
-      });
+    this.service.fetechPosts().subscribe(posts => {
+      this.isFeaching = false;
+      this.loadedPosts = posts;
+    });
   }
 
   onClearPosts() {
