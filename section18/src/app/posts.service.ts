@@ -19,7 +19,8 @@ export class PostsService {
         environment.apiUrl, 
         new Post(title, content), 
         {
-          observe: 'response'
+          observe: 'response',
+          responseType: 'json'
         }
       )
       .subscribe(response => {
