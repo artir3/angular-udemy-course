@@ -22,12 +22,16 @@ export class PostsService {
   }
 
   fetechPosts() {
+    let searchParams = new HttpParams();
+    searchParams = searchParams.append('print', 'pretty');
+    searchParams = searchParams.append('custom', 'key');
     let headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
-      params: new HttpParams()
-        .set('print', 'pretty')
+      // params: new HttpParams()
+      //   .set('print', 'pretty')
+      params: searchParams
     }
     return this.http.get<{ [key: string]: Post }>(environment.apiUrl, headers)
       .pipe(map(responseData => {
