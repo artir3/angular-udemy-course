@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError, tap } from 'rxjs/operators';
-import { throwError, Subject } from 'rxjs';
-import { AuthResponseData } from './AuthResponseeData.model';
+import { throwError, Subject, BehaviorSubject } from 'rxjs';
+import { AuthResponseData } from './auth-responsee-data.model';
 import { User } from './user.model';
 
 class SignModel {
@@ -20,7 +20,7 @@ const headers = {
 })
 export class AuthService {
   constructor(private http: HttpClient) { }
-  user = new Subject<User>();
+  user = new BehaviorSubject<User>(null);
 
   signUp(email: string, password: string) {
     return this.http.post<AuthResponseData>(

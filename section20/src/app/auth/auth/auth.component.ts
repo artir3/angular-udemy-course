@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Scheduler, Observable } from 'rxjs';
-import { AuthResponseData } from '../AuthResponseeData.model';
+import { Observable } from 'rxjs';
+import { AuthResponseData } from '../auth-responsee-data.model';
 import { Router } from '@angular/router';
 
 @Component({
