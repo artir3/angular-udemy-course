@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { promise } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  appStatus = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('stable');
+    },2000);
+  })
+
   servers = [
     {
       instanceType: 'medium',
