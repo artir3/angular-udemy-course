@@ -11,6 +11,7 @@ import { Post } from './post.model';
 })
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
+  isFeaching = false;
 
   constructor(private http: HttpClient) { }
 
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit {
 
   onFetchPosts() {
     // Send Http request
+    this.isFeaching = true;
     this.http.get<{ [key: string]: Post }>(environment.apiUrl)
       .pipe(map(responseData => {
         const posts: Post[] = [];
@@ -41,6 +43,7 @@ export class AppComponent implements OnInit {
       }))
       .subscribe(post => {
         this.loadedPosts = post;
+        this.isFeaching = false;
       });
   }
 
