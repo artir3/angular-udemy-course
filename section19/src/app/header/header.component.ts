@@ -14,6 +14,6 @@ export class HeaderComponent {
   }
 
   onFetechData() {
-    this.databaseService.fetechRecipes();
+    this.databaseService.fetechRecipes().subscribe();;
   }
 }
