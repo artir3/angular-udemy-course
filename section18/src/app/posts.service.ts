@@ -15,7 +15,13 @@ export class PostsService {
 
   createAndStorePost(title: string, content: string) {
     this.http
-      .post<{ name: string }>(environment.apiUrl, new Post(title, content))
+      .post<{ name: string }>(
+        environment.apiUrl, 
+        new Post(title, content), 
+        {
+          observe: 'response'
+        }
+      )
       .subscribe(response => {
         console.log(response);
       }, error => this.error.next(error.message));
