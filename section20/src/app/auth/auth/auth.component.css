@@ -2,3 +2,7 @@ button {
     width: 200px;
     margin-right: 20px;
 }
+
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
