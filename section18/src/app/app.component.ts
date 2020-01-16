@@ -11,6 +11,7 @@ import { PostsService } from './posts.service';
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFeaching = false;
+  error = null;
 
   constructor(private service: PostsService) { }
 
@@ -29,6 +30,9 @@ export class AppComponent implements OnInit {
     this.service.fetechPosts().subscribe(posts => {
       this.isFeaching = false;
       this.loadedPosts = posts;
+    }, error => {
+      this.error = error.message;
+      console.log(error)
     });
   }
 
