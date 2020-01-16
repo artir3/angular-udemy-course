@@ -6,6 +6,7 @@ import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.compon
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeAddedComponent } from './recipes/recipe-added/recipe-added.component';
 import { RecipesResolverGuard } from './recipes/recipes-resolver.service';
+import { AuthComponent } from './auth/auth/auth.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
   },
   { path: 'shopping-list', component: ShoppingListComponent },
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
+  { path: 'auth', component: AuthComponent }
 ]
 
 @NgModule({
