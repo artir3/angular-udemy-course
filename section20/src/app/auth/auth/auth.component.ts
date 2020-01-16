@@ -25,10 +25,11 @@ export class AuthComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (form.valid) {
+      this.isLoading = true;
+      this.onHideError();
+      
       const email = form.value.email;
       const password = form.value.password;
-
-      this.isLoading = true;
 
       let authObs: Observable<AuthResponseData>;
 
@@ -45,8 +46,12 @@ export class AuthComponent implements OnInit {
         this.error = errorMeessage;
         this.isLoading = false;
       });
-      
+
       form.reset();
     } else return;
+  }
+
+  onHideError() {
+    this.error = null;
   }
 }
