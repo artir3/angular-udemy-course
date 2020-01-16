@@ -34,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isFeaching = false;
       this.loadedPosts = posts;
     }, error => {
+      this.isFeaching = false;
       this.error = error.message;
       console.log(error)
     });
@@ -43,6 +44,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.service.clearPosts().subscribe(() => {
       this.loadedPosts = [];
     })
+  }
+
+  onHandleError() {
+    this.error = null;
   }
 
   ngOnDestroy(): void {
