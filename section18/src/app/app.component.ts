@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators'
+import { Post } from './post.model';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +14,14 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.onFetchPosts();
   }
 
-  onCreatePost(postData: { title: string; content: string }) {
+  onCreatePost(postData: Post) {
     // Send Http request
     this.http
-      .post(environment.apiUrl, postData)
+      .post<{ name: string }>(environment.apiUrl, postData)
       .subscribe(response => {
         console.log(response);
       });
@@ -28,19 +29,19 @@ export class AppComponent implements OnInit {
 
   onFetchPosts() {
     // Send Http request
-    this.http.get(environment.apiUrl)
+    this.http.get<{ [key: string]: Post }>(environment.apiUrl)
       .pipe(map(responseData => {
-        const posts = [];
-        for(let key in responseData) {
-          if (responseData.hasOwnProperty(key)){
+        const posts: Post[] = [];
+        for (let key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
             posts.push({ ...responseData[key], id: key });
           }
         };
         return posts;
       }))
       .subscribe(post => {
-      console.table(post);
-    });
+        console.table(post);
+      });
   }
 
   onClearPosts() {
