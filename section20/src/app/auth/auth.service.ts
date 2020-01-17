@@ -3,8 +3,9 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { environment } from 'src/environments/environment';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, Subject, BehaviorSubject } from 'rxjs';
-import { AuthResponseData } from './auth-responsee-data.model';
+import { AuthResponseData } from './auth-response-data.model';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 class SignModel {
   returnSecureToken: true
@@ -19,7 +20,7 @@ const headers = {
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
   user = new BehaviorSubject<User>(null);
 
   signUp(email: string, password: string) {
@@ -42,6 +43,11 @@ export class AuthService {
       catchError(this.handleError),
       tap(resData => this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn))
     );
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/auth'])
   }
 
   private handleError(errorResponse: HttpErrorResponse) {

@@ -34,4 +34,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onFetechData() {
     this.databaseService.fetechRecipes().subscribe();;
   }
+
+  onLogout() {
+    this.authService.logout();
+  }
 }
