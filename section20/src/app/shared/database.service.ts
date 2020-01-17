@@ -27,24 +27,14 @@ export class DatabaseService {
   }
 
   fetechRecipes() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap(user => {
-        return this.http.get<Recipe[]>(environment.url + 'recipes.json',
-          {
-            // headers: new HttpHeaders({
-            //   'Authorization': user.token
-            // }),
-            params: new HttpParams().set('auth', user.token)
-          }
-        )
-      }),
-      map(recipes => {
+
+    return this.http.get<Recipe[]>(environment.url + 'recipes.json')
+      .pipe(map(recipes => {
         return recipes.map(recipe => {
           return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] };
         });
       }),
-      tap(recipes => this.recipeService.setRecipes(recipes))
-    );
+        tap(recipes => this.recipeService.setRecipes(recipes))
+      );
   }
 }
