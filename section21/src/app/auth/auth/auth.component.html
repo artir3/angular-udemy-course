@@ -1,9 +1,10 @@
 <div class="row">
     <div class="col-xs-12 col-md-6 col-md-offset-3">
-        <div class="alert alert-danger" *ngIf="error">
+        <!-- <div class="alert alert-danger" *ngIf="error">
             <p> {{ error }} </p>
             <button class="button-error btn btn-danger" type="button" (click)="onHideError()">Hide an error</button>
-        </div>
+        </div> -->
+        <app-alert [message]="error" *ngIf="error"></app-alert>
         <div class="spinner" *ngIf="isLoading">
             <app-loading-spinner></app-loading-spinner>
         </div>
