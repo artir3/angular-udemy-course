@@ -21,9 +21,7 @@ export class DatabaseService {
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
     this.http.put(environment.url + 'recipes.json', recipes)
-      .subscribe(res => {
-        console.log(res);
-      });
+      .subscribe();
   }
 
   fetechRecipes() {
