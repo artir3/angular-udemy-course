@@ -1,42 +1,40 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { RecipesResolverService } from './recipes/recipes-resolver.service';
-import { AuthComponent } from './auth/auth.component';
-import { AuthGuard } from './auth/auth.guard';
+import { RecipeAddedComponent } from './recipes/recipe-added/recipe-added.component';
+import { RecipesResolverGuard } from './recipes/recipes-resolver.service';
+import { AuthComponent } from './auth/auth/auth.component';
+import { AuthGuard } from './auth/auth-guard.service';
 
-const appRoutes: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
+const routes: Routes = [
   {
-    path: 'recipes',
-    component: RecipesComponent,
-    canActivate: [AuthGuard],
+    path: 'recipes', component: RecipesComponent, 
+    canActivate: [ AuthGuard ],
     children: [
       { path: '', component: RecipeStartComponent },
-      { path: 'new', component: RecipeEditComponent },
+      { path: 'new', component: RecipeAddedComponent },
       {
         path: ':id',
         component: RecipeDetailComponent,
-        resolve: [RecipesResolverService]
+        resolve: [RecipesResolverGuard]
       },
       {
         path: ':id/edit',
-        component: RecipeEditComponent,
-        resolve: [RecipesResolverService]
-      }
+        component: RecipeAddedComponent,
+        resolve: [RecipesResolverGuard]
+      },
     ]
   },
-  { path: 'shopping-list', component: ShoppingListComponent },
+  { path: 'shopping-list', component: ShoppingListComponent, canActivate: [ AuthGuard ] },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
   { path: 'auth', component: AuthComponent }
-];
+]
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
