@@ -16,16 +16,13 @@ import { PlaceholderDirective } from './shared/placeholder/placeholder.directive
 import { RecipesModule } from './recipes/recipes.module';
 import { AuthGuard } from './auth/auth-guard.service';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
     AuthComponent,
-    AlertComponent,
-    LoadingSpinnerComponent,
-    PlaceholderDirective
   ],
   imports: [
     BrowserModule,
@@ -34,15 +31,13 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
     ReactiveFormsModule,
     HttpClientModule,
     RecipesModule,
-    ShoppingListModule
+    ShoppingListModule,
+    SharedModule
   ],
   providers: [
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    AlertComponent
-  ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
