@@ -1,22 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 
-import { DropdownDirective } from './shared/dropdown/dropdown.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthComponent } from './auth/auth/auth.component';
-import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
-import { AuthInterceptor } from './auth/auth-interceptor.service';
-import { AlertComponent } from './shared/alert/alert.component';
-import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 import { RecipesModule } from './recipes/recipes.module';
-import { AuthGuard } from './auth/auth-guard.service';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core.module';
 
 @NgModule({
   declarations: [
@@ -32,11 +27,8 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     RecipesModule,
     ShoppingListModule,
-    SharedModule
-  ],
-  providers: [
-    AuthGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    SharedModule,
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })

@@ -9,7 +9,6 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { RecipeItemComponent } from './recipe-list/recipe-item/recipe-item.component';
 import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipeAddedComponent } from './recipe-added/recipe-added.component'
-import { RecipeService } from './recipe.service';
 import { RecipesRoutingModule } from './recipes-routing.module';
 
 @NgModule({
@@ -28,8 +27,6 @@ import { RecipesRoutingModule } from './recipes-routing.module';
         ReactiveFormsModule
     ],
     exports: [],
-    providers: [
-        RecipeService,
-    ],
+    providers: [],
 })
 export class RecipesModule { }
