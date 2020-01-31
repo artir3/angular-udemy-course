@@ -1,12 +1,18 @@
+import { Action } from '@ngrx/store';
+
 import { Ingredient } from "../shared/ingredient.model";
 
 const initialState = { 
-    ingredient: [
+    ingredients: [
     new Ingredient('Apples', 5),
     new Ingredient('Tomatoes', 10),
   ]
 };
 
-export function shoppingLitReducer(section = initialState, action) {
-    
+export function shoppingLitReducer(state = initialState, action: Action) {
+    switch(action.type) {
+      case 'ADD_INGREDIENT': 
+        return { ...state, ingredients: [...state.ingredients, action]
+         };
+    }
 }
