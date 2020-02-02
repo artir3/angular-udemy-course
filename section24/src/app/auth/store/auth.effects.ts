@@ -22,6 +22,7 @@ const headers = {
 const handleAuthentication = (resData: AuthResponseData) => {
     const expirationDate = new Date(new Date().getTime() + resData.expiresIn + 1000);
     const user = new User(resData.email, resData.localId, resData.idToken, expirationDate);
+    localStorage.setItem('userData', JSON.stringify(user));
     return new AuthActions.AuthenticateSuccess(user);
 }
 
@@ -91,6 +92,14 @@ export class AuthEffects {
         }),
     );
 
+    @Effect()
+    authLogout = this.actions$.pipe(
+        ofType(AuthActions.LOGOUT),
+        tap(() => {
+            localStorage.removeItem('userData');
+        })
+    )
+
     @Effect({ dispatch: false })
     authRedirect = this.actions$.pipe(
         ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
@@ -99,7 +108,35 @@ export class AuthEffects {
         })
     )
 
-    constructor( 
+    @Effect()
+    autoLogin = this.actions$.pipe(
+        ofType(AuthActions.AUTO_LOGIN),
+        map(() => {
+            const userData: {
+                email: string,
+                id: string,
+                _token: string,
+                _tokenExpirationData: Date
+            } = JSON.parse(localStorage.getItem('userData'));
+
+            if (userData && userData._token) {
+                const loadedUser = new User(
+                    userData.email,
+                    userData.id,
+                    userData._token,
+                    new Date(userData._tokenExpirationData)
+                )
+                // this.user.next(loadedUser);
+                return new AuthActions.AuthenticateSuccess(loadedUser);
+                // const expirationDuration = new Date(userData._tokenExpirationData).getTime() - new Date().getTime();
+                // this.autoLogout(expirationDuration);
+
+            }
+            return { type: 'DUMMY' }
+        })
+    )
+
+    constructor(
         private actions$: Actions,
         private http: HttpClient,
         private router: Router

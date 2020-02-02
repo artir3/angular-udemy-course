@@ -3,10 +3,14 @@ import { User } from "../user.model";
 
 export const AUTHENTICATE_SUCCESS = '[Auth] Authenticate Success';
 export const AUTHENTICATE_FAILED = '[Auth] Authenticate Failed'
-export const LOGOUT = '[Auth] Logout'
-export const LOGIN_START = '[Auth] Login Start'
-export const SIGNUP_START = '[Auth] Signup Start'
 export const CLEAR_ERROR = '[Auth] Clear Error'
+
+export const SIGNUP_START = '[Auth] Signup Start'
+
+export const LOGIN_START = '[Auth] Login Start'
+export const AUTO_LOGIN = '[Auth] Auto Login'
+
+export const LOGOUT = '[Auth] Logout'
 
 export class AuthenticateSuccess implements Action {
     readonly type = AUTHENTICATE_SUCCESS;
@@ -36,12 +40,17 @@ export class ClearError implements Action {
     readonly type = CLEAR_ERROR;
 }
 
+export class AutoLogin implements Action {
+    readonly type = AUTO_LOGIN;
+}
+
 export type AuthActions =
-    Logout |
-    LoginStart |
-    SignupStart |
-    AuthenticateSuccess |
-    AuthenticateFailed |
-    ClearError
+    | Logout
+    | LoginStart
+    | SignupStart
+    | AuthenticateSuccess
+    | AuthenticateFailed
+    | ClearError
+    | AutoLogin
     ;
 
