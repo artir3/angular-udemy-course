@@ -1,17 +1,14 @@
 import { Ingredient } from "../../shared/models/ingredient.model";
 import * as ShoppingListActions from './shopping-list.actions';
 
-export interface AppState {
-  shoppingList: ShoppingListStore
-}
 
-export interface ShoppingListStore {
+export interface State {
   ingredients: Ingredient[],
   editedIngredient: Ingredient,
   editedIngredientIndex: number
 }
 
-const initialState: ShoppingListStore = {
+const initialState: State = {
   ingredients: [
     new Ingredient('Apples', 5),
     new Ingredient('Tomatoes', 10),
@@ -21,7 +18,7 @@ const initialState: ShoppingListStore = {
 };
 
 export function shoppingLitReducer(
-  state: ShoppingListStore = initialState,
+  state: State = initialState,
   action: ShoppingListActions.ShoppingListActions
 ) {
   switch (action.type) {
