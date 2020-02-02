@@ -6,6 +6,9 @@ import { AuthResponseData } from '../auth-response-data.model';
 import { Router } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { PlaceholderDirective } from 'src/app/shared/placeholder/placeholder.directive';
+import * as fromApp from '../../store/app.reducer';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../store/auth.actions';
 
 @Component({
   selector: 'app-auth',
@@ -16,13 +19,14 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   isLoading = false;
   error = null;
-  @ViewChild(PlaceholderDirective, {static: true}) alertHost: PlaceholderDirective;
+  @ViewChild(PlaceholderDirective, { static: true }) alertHost: PlaceholderDirective;
   private closeSub: Subscription;
-  
+
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
-    private cfr: ComponentFactoryResolver
+    private cfr: ComponentFactoryResolver,
+    private store: Store<fromApp.AppState>
   ) { }
 
   ngOnInit() {
@@ -43,7 +47,8 @@ export class AuthComponent implements OnInit, OnDestroy {
       let authObs: Observable<AuthResponseData>;
 
       if (this.isLoginMode) {
-        authObs = this.authService.login(email, password)
+        this.store.dispatch(new AuthActions.LoginStart({ email: email, password: password }))
+        // authObs = this.authService.login(email, password)
       } else {
         authObs = this.authService.signUp(email, password)
       }

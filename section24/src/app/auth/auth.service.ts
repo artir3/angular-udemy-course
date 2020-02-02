@@ -43,7 +43,7 @@ export class AuthService {
       environment.signInUrl,
       new SignModel(email, password),
       headers
-    ).pipe(
+  ).pipe(
       catchError(this.handleError),
       tap(resData => {
         let expirationDate = resData.expiresIn ? +resData.expiresIn : 3600;
