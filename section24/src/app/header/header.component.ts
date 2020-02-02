@@ -2,6 +2,9 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/cor
 import { DatabaseService } from '../shared/database.service';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
+import * as formApp from '../store/app.reducer';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -14,13 +17,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private databaseService: DatabaseService,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<formApp.AppState>
   ) { }
 
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe(user => {
-      this.isAutenticated = !!user;
-    });
+    this.userSub = this.store
+      .select('auth')
+      .pipe(map(authState => authState.user))
+      .subscribe(user => {
+        this.isAutenticated = !!user;
+      });
   }
 
   ngOnDestroy(): void {

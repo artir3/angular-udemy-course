@@ -24,7 +24,7 @@ const headers = {
 })
 export class AuthService {
   constructor(private http: HttpClient, private router: Router, private store: Store<fromApp.AppState>) { }
-  user = new BehaviorSubject<User>(null);
+  // user = new BehaviorSubject<User>(null);
   private tokenExpirationTimeout: any;
 
   signUp(email: string, password: string) {
