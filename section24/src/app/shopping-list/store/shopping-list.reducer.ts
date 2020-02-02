@@ -1,4 +1,4 @@
-import { Ingredient } from "../../shared/ingredient.model";
+import { Ingredient } from "../../shared/models/ingredient.model";
 import * as ShoppingListActions from './shopping-list.actions';
 
 const initialState = {
@@ -12,7 +12,7 @@ export function shoppingLitReducer(state = initialState, action: ShoppingListAct
   switch (action.type) {
     case ShoppingListActions.ADD_INGREDIENT:
       return {
-        ...state, ingredients: [...state.ingredients, action.payload]
+        ...state, ingredients: [...state.ingredients, action.ingredient]
       };
       default:
         return state;
