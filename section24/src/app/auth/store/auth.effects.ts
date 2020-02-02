@@ -21,7 +21,8 @@ const headers = {
 };
 
 const handleAuthentication = (resData: AuthResponseData) => {
-    const expirationDate = new Date(new Date().getTime() + resData.expiresIn + 1000);
+    const expiresIn = resData.expiresIn ? +resData.expiresIn : 3600;
+    const expirationDate = new Date(new Date().getTime() + expiresIn + 1000);
     const user = new User(resData.email, resData.localId, resData.idToken, expirationDate);
     localStorage.setItem('userData', JSON.stringify(user));
     return new AuthActions.AuthenticateSuccess(user);
@@ -78,10 +79,7 @@ export class AuthEffects {
                 new SignModel(signupAction.payload.email, signupAction.payload.password),
                 headers
             ).pipe(
-                tap(resData => {
-                    this.authService.setLogoutTimmer(+resData.expiresIn * 1000);
-                    return resData;
-                }),
+                tap(resData => this.setTimeout(resData)),
                 map(resData => handleAuthentication(resData)),
                 catchError(error => handleError(error)),
             )
@@ -98,22 +96,19 @@ export class AuthEffects {
                 new SignModel(authDate.payload.email, authDate.payload.password),
                 headers
             ).pipe(
-                tap(resData => {
-                    this.authService.setLogoutTimmer(+resData.expiresIn * 1000);
-                    return resData;
-                }),
+                tap(resData => this.setTimeout(resData)),
                 map(resData => handleAuthentication(resData)),
                 catchError(error => handleError(error)),
             )
         }),
     );
 
-    @Effect()
+    @Effect({ dispatch: false })
     authLogout = this.actions$.pipe(
         ofType(AuthActions.LOGOUT),
         tap(() => {
             this.authService.clearLogoutTimmer();
-            localStorage.removeItem('userData');
+            localStorage.clear();//removeItem('userData');
             this.router.navigate(['/auth']);
         })
     )
@@ -122,7 +117,7 @@ export class AuthEffects {
     authRedirect = this.actions$.pipe(
         ofType(AuthActions.AUTHENTICATE_SUCCESS),
         tap(() => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/recipes']);
         })
     )
 
@@ -142,7 +137,7 @@ export class AuthEffects {
                     userData.email,
                     userData.id,
                     userData._token,
-                    new Date(userData._tokenExpirationData)
+                    userData._tokenExpirationData
                 )
                 const expirationDuration = new Date(userData._tokenExpirationData).getTime() - new Date().getTime();
                 this.authService.setLogoutTimmer(expirationDuration);
@@ -151,4 +146,9 @@ export class AuthEffects {
             return { type: 'DUMMY' }
         })
     )
+
+    private setTimeout(resData: AuthResponseData) {
+        const expiresIn = resData.expiresIn ? +resData.expiresIn : 3600;
+        this.authService.setLogoutTimmer(expiresIn * 1000);
+    }
 }

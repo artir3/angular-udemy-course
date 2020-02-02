@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
-        private authService: AuthService,
         private routere: Router,
         private store: Store<formApp.AppState>
     ) { }

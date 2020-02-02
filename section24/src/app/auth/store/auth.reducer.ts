@@ -38,8 +38,8 @@ export function authReducer(state = initialState, action: fromAuthActions.AuthAc
         case fromAuthActions.AUTHENTICATE_SUCCESS:
             return {
                 ...state,
-                user: null,
-                authError: action.payload,
+                user: action.payload,
+                authError: null,
                 loading: false
             }
         case fromAuthActions.CLEAR_ERROR:

@@ -2,16 +2,18 @@ export class User {
     constructor(
         public email: string,
         public id: string,
-        private _token: string,
-        private _tokenExpirationDate: Date
-    ) {}
+        private idToken: string,
+        private expirationDate: Date
+    ) { }
 
     get token() {
-        if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
-            this._token = null;
-            return null;
-        } else {
-            return this._token;
+
+        const a = !this.expirationDate
+        const b = new Date() > this.expirationDate
+        if (a || b) {
+            this.idToken = undefined;
         }
+        return this.idToken;
+
     }
 }
