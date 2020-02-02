@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import * as formApp from '../store/app.reducer';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -43,6 +44,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.store.dispatch(new AuthActions.Logout())
   }
 }
