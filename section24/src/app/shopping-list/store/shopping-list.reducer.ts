@@ -31,7 +31,7 @@ export function shoppingLitReducer(
         ...state, ingredients: [...state.ingredients, ...action.payload]
       };
     }
-    case ShoppingListActions.UPDATE_INGREDIENTS: {
+    case ShoppingListActions.UPDATE_INGREDIENT: {
       const ingredient = state.ingredients[state.editedIngredientIndex];
       const updatedIngredient = {
         // we copy whole old object, then we override only that variables what we need.
@@ -47,7 +47,7 @@ export function shoppingLitReducer(
         editedIngredientIndex: -1
       };
     }
-    case ShoppingListActions.DELETE_INGREDIENTS: {
+    case ShoppingListActions.DELETE_INGREDIENT: {
       return {
         ...state, 
         ingredients: state.ingredients.filter((ig, index) => {
