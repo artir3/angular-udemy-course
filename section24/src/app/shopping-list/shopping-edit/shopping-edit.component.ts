@@ -4,8 +4,8 @@ import { ShoppingListService } from '../shopping-list.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ShoppingListStore } from 'src/app/shared/models/shopping-list.store.model';
 import * as SPActions from '../store/shopping-list.actions';
+import * as fromShoppingList from '../store/shopping-list.reducer';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -21,7 +21,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private shoppingListService: ShoppingListService,
-    private store: Store<ShoppingListStore>
+    private store: Store<fromShoppingList.AppState>
   ) { }
 
   ngOnInit() {
