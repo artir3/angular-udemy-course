@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Ingredient } from 'src/app/shared/models/ingredient.model';
-import { ShoppingListService } from '../shopping-list.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -19,7 +18,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) ngForm: NgForm;
 
   constructor(
-    private shoppingListService: ShoppingListService,
     private store: Store<fromShoppingList.AppState>
   ) { }
 
