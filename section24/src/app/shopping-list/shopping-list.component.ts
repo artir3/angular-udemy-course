@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { Ingredients } from '../shared/models/ingredients.model';
 import * as fromShoppingList from './store/shopping-list.reducer';
+import * as SPActions from './store/shopping-list.actions';
 
 @Component({
   selector: 'app-shopping-list',
@@ -35,6 +36,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   onEditItem(id: number) {
-    this.shoppingListService.startedEditing.next(id);
+    this.store.dispatch(new SPActions.StartEdit(id))
+        // this.shoppingListService.startedEditing.next(id);
   }
 }
