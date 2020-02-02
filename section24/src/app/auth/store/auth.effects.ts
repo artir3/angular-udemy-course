@@ -22,6 +22,12 @@ const headers = {
 @Injectable()
 export class AuthEffects {
     @Effect()
+    authSignUp = this.actions$.pipe(
+        ofType(AuthActions.SIGNUP_START)
+    );
+
+
+    @Effect()
     authLogin = this.actions$.pipe(
         ofType(AuthActions.LOGIN_START),
         switchMap((authDate: AuthActions.LoginStart) => {
@@ -33,11 +39,11 @@ export class AuthEffects {
                 map((resData: AuthResponseData) => {
                     const expirationDate = new Date(new Date().getTime() + resData.expiresIn + 1000);
                     const user = new User(resData.email, resData.localId, resData.idToken, expirationDate);
-                    return new AuthActions.Login(user);
+                    return new AuthActions.AuthenticateSuccess(user);
                 }),
                 catchError(error => {
                     const handleError = this.handleError(error)
-                    return of(new AuthActions.LoginFailed(handleError));
+                    return of(new AuthActions.AuthenticateFailed(handleError));
                 }),
             )
         }),
@@ -45,7 +51,7 @@ export class AuthEffects {
 
     @Effect({ dispatch: false })
     authSuccess = this.actions$.pipe(
-        ofType(AuthActions.LOGIN),
+        ofType(AuthActions.AUTHENTICATE_SUCCESS),
         tap(() => {
             this.router.navigate(['/'])
         })
