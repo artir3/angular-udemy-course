@@ -27,31 +27,6 @@ export class AuthService {
   // user = new BehaviorSubject<User>(null);
   private tokenExpirationTimeout: any;
 
-  signUp(email: string, password: string) {
-    return this.http.post<AuthResponseData>(
-      environment.signUpUrl,
-      new SignModel(email, password),
-      headers
-    ).pipe(
-      catchError(this.handleError),
-      tap(resData => this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn))
-    );
-  }
-
-  login(email: string, password: string) {
-    return this.http.post<AuthResponseData>(
-      environment.signInUrl,
-      new SignModel(email, password),
-      headers
-  ).pipe(
-      catchError(this.handleError),
-      tap(resData => {
-        let expirationDate = resData.expiresIn ? +resData.expiresIn : 3600;
-        this.handleAuthentication(resData.email, resData.localId, resData.idToken, expirationDate)
-      })
-    );
-  }
-
   autoLogin() {
     const userData: {
       email: string,
@@ -90,39 +65,6 @@ export class AuthService {
       this.logout();
     }, expirationDuration);
 
-  }
-
-  private handleError(errorResponse: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occured!'
-    if (errorResponse.error && errorResponse.error.error) {
-      switch (errorResponse.error.error.message) {
-        case 'EMAIL_EXISTS': {
-          errorMessage = 'The email address is already in use by another account';
-          break;
-        }
-        case 'OPERATION_NOT_ALLOWED': {
-          errorMessage = 'Password sign-in is disabled for this project';
-          break;
-        }
-        case 'TOO_MANY_ATTEMPTS_TRY_LATER': {
-          errorMessage = 'We have blocked all requests from this device due to unusual activity. Try again later.';
-          break;
-        }
-        case 'EMAIL_NOT_FOUND': {
-          errorMessage = 'There is no user record corresponding to this identifier. The user may have been deleted';
-          break;
-        }
-        case 'INVALID_PASSWORD': {
-          errorMessage = 'The password is invalid or the user does not have a password';
-          break;
-        }
-        case 'USER_DISABLED': {
-          errorMessage = 'The user account has been disabled by an administrator';
-          break;
-        }
-      }
-    }
-    return throwError(errorMessage);
   }
 
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {

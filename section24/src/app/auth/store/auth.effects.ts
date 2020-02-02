@@ -99,7 +99,7 @@ export class AuthEffects {
         })
     )
 
-    constructor(
+    constructor( 
         private actions$: Actions,
         private http: HttpClient,
         private router: Router
