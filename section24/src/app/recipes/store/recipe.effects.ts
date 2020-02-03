@@ -24,11 +24,14 @@ export class RecipeEffects {
             return this.http.get<Recipe[]>(environment.url + 'recipes.json')
         }), 
         map(recipes => {
+            console.log(recipes)
             return recipes.map(recipe => {
                 return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] };
             });
         }),
         map(recipes => {
+            console.log(recipes)
+
             return new RecipeActions.SetRecipes(recipes)
             // this.recipeService.setRecipes(recipes)
         })

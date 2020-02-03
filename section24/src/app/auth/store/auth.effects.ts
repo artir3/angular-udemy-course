@@ -108,7 +108,7 @@ export class AuthEffects {
         ofType(AuthActions.LOGOUT),
         tap(() => {
             this.authService.clearLogoutTimmer();
-            localStorage.clear();//removeItem('userData');
+            localStorage.clear();
             this.router.navigate(['/auth']);
         })
     )
@@ -118,7 +118,7 @@ export class AuthEffects {
         ofType(AuthActions.AUTHENTICATE_SUCCESS),
         tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
             if (authSuccessAction.redirect) {
-                this.router.navigate(['/']);
+                this.router.navigate(['/recipes']);
             }
         })
     )

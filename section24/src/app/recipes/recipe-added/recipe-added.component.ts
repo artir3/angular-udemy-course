@@ -72,7 +72,8 @@ export class RecipeAddedComponent implements OnInit, OnDestroy {
 
     if (this.editMode) {
       // const recipe = this.recipeService.getRecipe(this.id);
-      this.storeSub = this.route.params
+      this.storeSub = this.store
+        .select('recipes')
         .pipe(
           map(recipesState => {
             return recipesState.recipes.find((recipe, index) => {

@@ -16,7 +16,7 @@ import { AuthGuard } from '../auth/auth-guard.service';
     CommonModule,
     FormsModule,
     RouterModule.forChild([
-      { path: '', component: ShoppingListComponent } //, canActivate: [AuthGuard] },
+      { path: '', component: ShoppingListComponent, canActivate: [AuthGuard] },
     ])
   ],
   providers: []
