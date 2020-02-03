@@ -1,17 +1,21 @@
 import { Actions, ofType, Effect } from '@ngrx/effects';
 
 import * as RecipeActions from './recipe.actions';
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map, withLatestFrom } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Recipe } from '../recipe.model';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
+import * as fromApp from '../../store/app.reducer';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class RecipeEffects {
     constructor(
         private actions$: Actions,
-        private http: HttpClient) { }
+        private http: HttpClient,
+        private store: Store<fromApp.AppState>
+        ) { }
 
     @Effect()
     fetechRecipe = this.actions$.pipe(
@@ -29,6 +33,15 @@ export class RecipeEffects {
             // this.recipeService.setRecipes(recipes)
         })
 
+    )
+
+    @Effect({ dispatch: false })
+    storeRecipes = this.actions$.pipe(
+        ofType(RecipeActions.STORE_RECIPES),
+        withLatestFrom(this.store.select('recipes')),
+        switchMap(([actionData, recipesState]) => {
+            return this.http.put(environment.url + 'recipes.json', recipesState.recipes);
+        })
     )
 }
 

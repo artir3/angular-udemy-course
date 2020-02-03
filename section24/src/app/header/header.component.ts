@@ -1,6 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { DatabaseService } from '../shared/database.service';
-import { AuthService } from '../auth/auth.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import * as formApp from '../store/app.reducer';
 import { Store } from '@ngrx/store';
@@ -18,8 +16,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAutenticated = false;
 
   constructor(
-    private databaseService: DatabaseService,
-    private authService: AuthService,
     private store: Store<formApp.AppState>
   ) { }
 
@@ -37,12 +33,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSaveData() {
-    this.databaseService.storeRecipes();
+    this.store.dispatch(new RecipeActions.StoreRecipes());
   }
 
   onFetechData() {
     this.store.dispatch(new RecipeActions.FetechRecipes());
-    // this.databaseService.fetechRecipes().subscribe();;
   }
 
   onLogout() {

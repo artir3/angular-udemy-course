@@ -1,7 +1,5 @@
 import { Recipe } from "../recipe.model";
 import * as RecipeActions from './recipe.actions'
-import { act } from "@ngrx/effects";
-
 
 export interface State {
     recipes: Recipe[]
@@ -48,15 +46,7 @@ export function recipeReducer(
                 recipes: state.recipes.filter((recipe, index) => index !== action.payload)
             }
         }
-        case RecipeActions.CLEAR_RECIPES: {
-            return {
-                ...state,
-                recipes: []
-            }
-        }
         default:
             return state;
     }
-
 }
-
