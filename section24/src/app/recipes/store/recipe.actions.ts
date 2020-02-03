@@ -6,6 +6,7 @@ export const SET_RECIPES = '[Recipes] Set Recipes';
 export const ADD_RECIPE = '[Recipes] Add Recipe';
 export const UPDATE_RECIPE = '[Recipes] Update Recipe';
 export const CLEAR_RECIPES = '[Recipes] Clear Recipes';
+export const FETECH_RECIPES = '[Recipes] Fetech Recipes';
 
 export class DeleteRecipe implements Action {
     readonly type = DELETE_RECIPE;
@@ -31,12 +32,17 @@ export class ClearRecipes implements Action {
     readonly type = CLEAR_RECIPES;
 }
 
+export class FetechRecipes implements Action {
+    readonly type = FETECH_RECIPES;
+}
+
 export type RecipeActions =
     | SetRecipes
     | AddRecipe
     | UpdateRecipe
     | DeleteRecipe
     | ClearRecipes
+    | FetechRecipes
     ;
 
 
