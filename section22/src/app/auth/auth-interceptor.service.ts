@@ -13,14 +13,14 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.authService.user.pipe(
       take(1),
       exhaustMap(user => {
-        if (!user) {
-          return next.handle(req);
-        } else {
-          const modifiedReq = req.clone({
-            params: new HttpParams().set('auth', user.token)
-          })
-          return next.handle(modifiedReq);
-        }
+// Quick fix to restore ability to download files from db.
+//        if (user) 
+//          const modifiedReq = req.clone({
+//            params: new HttpParams().set('auth', user.token)
+//          })
+//          return next.handle(modifiedReq);
+//        }
+        return next.handle(req);
       }));
   }
 }
