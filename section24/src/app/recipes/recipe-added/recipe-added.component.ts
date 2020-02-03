@@ -3,6 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
 import { Recipe } from '../recipe.model';
+import * as fromApp from '../../store/app.reducer';
+import { Store } from '@ngrx/store';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipe-added',
@@ -17,7 +20,8 @@ export class RecipeAddedComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private router: Router
+    private router: Router,
+    private store: Store<fromApp.AppState>
   ) { }
 
   onSubmit() {
@@ -66,15 +70,25 @@ export class RecipeAddedComponent implements OnInit {
     let ingredients = new FormArray([]);
 
     if (this.editMode) {
-      const recipe = this.recipeService.getRecipe(this.id);
-      name = recipe.name;
-      imagePath = recipe.imagePath;
-      description = recipe.description;
-      if (recipe['ingredients']) {
-        recipe.ingredients.forEach(ing => {
-          ingredients.push(this.newIngredientForm(ing.name, ing.amount))
+      // const recipe = this.recipeService.getRecipe(this.id);
+      this.route.params
+        .pipe(
+          map(recipesState => {
+            return recipesState.recipes.find((recipe, index) => {
+              return index === this.id;
+            })
+          })
+        )
+        .subscribe(recipe => {
+          name = recipe.name;
+          imagePath = recipe.imagePath;
+          description = recipe.description;
+          if (recipe['ingredients']) {
+            recipe.ingredients.forEach(ing => {
+              ingredients.push(this.newIngredientForm(ing.name, ing.amount))
+            });
+          }
         });
-      }
     }
 
     this.recipeForm = new FormGroup({
@@ -90,7 +104,7 @@ export class RecipeAddedComponent implements OnInit {
   }
 
   private ingredients(): FormArray {
-    return (<FormArray> this.recipeForm.get('ingredients'));
+    return (<FormArray>this.recipeForm.get('ingredients'));
   }
 
   private newIngredientForm(name: string, amount: number): FormGroup {
