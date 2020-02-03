@@ -6,7 +6,9 @@ export interface State {
     recipes: Recipe[]
 }
 
-const initialState: Recipe[] = [];
+const initialState = {
+    recipes: []
+};
 
 export function recipeReducer(
     state = initialState,
