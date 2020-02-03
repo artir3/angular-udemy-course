@@ -25,7 +25,7 @@ const handleAuthentication = (resData: AuthResponseData) => {
     const expirationDate = new Date(new Date().getTime() + expiresIn + 1000);
     const user = new User(resData.email, resData.localId, resData.idToken, expirationDate);
     localStorage.setItem('userData', JSON.stringify(user));
-    return new AuthActions.AuthenticateSuccess(user);
+    return new AuthActions.AuthenticateSuccess(user, true);
 }
 
 const handleError = (error: HttpErrorResponse) => {
@@ -116,8 +116,10 @@ export class AuthEffects {
     @Effect({ dispatch: false })
     authRedirect = this.actions$.pipe(
         ofType(AuthActions.AUTHENTICATE_SUCCESS),
-        tap(() => {
-            this.router.navigate(['/recipes']);
+        tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
+            if (authSuccessAction.redirect) {
+                this.router.navigate(['/']);
+            }
         })
     )
 
@@ -141,7 +143,7 @@ export class AuthEffects {
                 )
                 const expirationDuration = new Date(userData._tokenExpirationData).getTime() - new Date().getTime();
                 this.authService.setLogoutTimmer(expirationDuration);
-                return new AuthActions.AuthenticateSuccess(loadedUser);
+                return new AuthActions.AuthenticateSuccess(loadedUser, false);
             }
             return { type: 'DUMMY' }
         })
