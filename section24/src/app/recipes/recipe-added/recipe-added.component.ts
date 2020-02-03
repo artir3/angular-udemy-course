@@ -26,18 +26,10 @@ export class RecipeAddedComponent implements OnInit, OnDestroy {
   ) { }
 
   onSubmit() {
-    // const newRecipe = new Recipe(
-    //   this.recipeForm.value['name'],
-    //   this.recipeForm.value['description'],
-    //   this.recipeForm.value['imagePath'],
-    //   this.recipeForm.value['ingredients']
-    // );
     if (this.editMode) {
       this.store.dispatch(new RecipeActions.UpdateRecipe({ index: this.id, newRecipe: this.recipeForm.value }));
-      // this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
       this.store.dispatch(new RecipeActions.AddRecipe(this.recipeForm.value));
-      // this.recipeService.addRecipe(this.recipeForm.value);
     }
     this.onCancel();
   }
