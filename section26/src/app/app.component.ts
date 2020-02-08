@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
@@ -58,6 +58,41 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
           transform: 'translate(-100px)'
         }),
         animate(300)]),
+      transition('* => void', [
+        animate(300), style({
+          opacity: 0,
+          transform: 'translate(100px)'
+        })
+      ]),
+    ]),
+
+    trigger('list2', [
+      state('in', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('void => *', [
+        animate(1000, keyframes([
+          style({
+            opacity: 0,
+            transform: 'translate(-100px)',
+            offset: 0
+          }),
+          style({
+            opacity: 0.5,
+            transform: 'translate(-50px)',
+            offset: 0.3
+          }),
+          style({
+            opacity: 1,
+            transform: 'translate(-20px)',
+            offset: 0.8
+          }), style({
+            opacity: 1,
+            transform: 'translate(0px)',
+            offset: 1
+          })
+        ]))]),
       transition('* => void', [
         animate(300), style({
           opacity: 0,
