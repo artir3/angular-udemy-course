@@ -7,12 +7,12 @@ import { trigger, state, style } from '@angular/animations';
   animations: [
     trigger('divState', [
       state('normal', style({
-        'background-color' : 'red',
+        'background-color': 'red',
         transform: 'translateX(0)'
       })),
       state('highlighted', style({
-        backgroundColor: 'blue',
-        transform: 'translateX(100)'
+        'background-color': 'blue',
+        transform: 'translateX(100px)'
       }))
     ])
   ]
@@ -29,4 +29,10 @@ export class AppComponent {
     const index = this.list.findIndex(item);
     this.list.splice(index, 1);
   }
+
+  onAnimate() {
+    this.state = this.state == 'normal' ? 'highlighted' : 'normal';
+  }
+
+  onShrink() {}
 }
