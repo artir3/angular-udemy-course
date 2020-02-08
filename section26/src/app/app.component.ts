@@ -31,7 +31,21 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
       })),
       transition('normal => highlighted', animate(300)),
       transition('highlighted => normal', animate(500)),
-      transition('shrunken <=> *', animate(500)),
+      transition('shrunken <=> *', [
+        style({
+          'background-color': 'orange',
+          borderRadius: '0px'
+        }),
+        animate(1000, style({
+          borderRadius: '50px'
+        })),
+        animate(500)
+      ]
+      ),
+      // therre is something go wrong, because it work to half step and then change immediately to new state
+      // animate(500, style({
+      //   borderRadius: '50px'
+      // }))
     ])
   ]
 })
